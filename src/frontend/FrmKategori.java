@@ -4,188 +4,205 @@ import backend.*;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
-public class FrmKategori extends javax.swing.JFrame {
-     private JTextField txtIdKategori;
-    private JTextField txtNama;
-    private JButton btnSimpan;
-    private JButton btnHapus;
-    private JButton btnTambahBaru;
-    private JTextField txtCari;
-    private JButton btnCari;
+public class FrmKategori extends JFrame {
+
+    private JTextField txtIdKategori, txtNama, txtKeterangan, txtCari;
+    private JButton btnSimpan, btnHapus, btnTambahBaru, btnCari;
     private JTable tblKategori;
     private JScrollPane jScrollPane1;
 
-    private JLabel labelId;
-    private JLabel labelNama;
-
     public FrmKategori() {
+
+        // ====== UI IMPROVEMENT ======
+        UIManager.put("Button.focus", new Color(0, 0, 0, 0));        // hilangkan garis fokus
+        UIManager.put("Table.showGrid", false);                     // tabel lebih clean
+        UIManager.put("Table.intercellSpacing", new Dimension(8, 8));
+
+        // ====== INISIALISASI KOMPONEN ======
+        JLabel lblId = new JLabel("ID Kategori");
+        JLabel lblNama = new JLabel("Nama Kategori");
+        JLabel lblKet = new JLabel("Keterangan");
+
         txtIdKategori = new JTextField();
         txtNama = new JTextField();
-        btnSimpan = new JButton("Simpan");
-        btnHapus = new JButton("Hapus");
-        btnTambahBaru = new JButton("Tambah Baru");
+        txtKeterangan = new JTextField();
         txtCari = new JTextField();
-        btnCari = new JButton("Cari");
-        tblKategori = new JTable();
-        jScrollPane1 = new JScrollPane();
 
-        labelId = new JLabel("ID");
-        labelNama = new JLabel("Kategori");
+        btnSimpan = makeButton("Simpan");
+        btnHapus = makeButton("Hapus");
+        btnTambahBaru = makeButton("Tambah Baru");
+        btnCari = makeButton("Cari");
 
         txtIdKategori.setText("0");
         txtIdKategori.setEnabled(false);
 
-        tblKategori.setModel(new DefaultTableModel(
-            new Object [][] {},
-            new String [] {"ID", "Kategori"}
-        ));
-        jScrollPane1.setViewportView(tblKategori);
+        tblKategori = new JTable();
+        jScrollPane1 = new JScrollPane(tblKategori);
 
-        getContentPane().setLayout(null);
+        setLayout(null); // manual layout
 
-        labelId.setBounds(15, 15, 100, 20);
-        txtIdKategori.setBounds(120, 15, 100, 20);
+        // ====== PENGATURAN FONT ======
+        Font fLabel = new Font("Segoe UI", Font.PLAIN, 14);
+        Font fText = new Font("Segoe UI", Font.PLAIN, 14);
+        Font fBtn = new Font("Segoe UI", Font.BOLD, 14);
 
-        labelNama.setBounds(15, 40, 100, 20);
-        txtNama.setBounds(120, 40, 300, 20);
+        lblId.setFont(fLabel);
+        lblNama.setFont(fLabel);
+        lblKet.setFont(fLabel);
 
-        btnSimpan.setBounds(15, 80, 100, 30);
-        btnTambahBaru.setBounds(125, 80, 110, 30);
-        btnHapus.setBounds(245, 80, 100, 30);
+        txtIdKategori.setFont(fText);
+        txtNama.setFont(fText);
+        txtKeterangan.setFont(fText);
+        txtCari.setFont(fText);
 
-        txtCari.setBounds(375, 85, 150, 25);
-        btnCari.setBounds(535, 85, 60, 25);
+        btnSimpan.setFont(fBtn);
+        btnHapus.setFont(fBtn);
+        btnTambahBaru.setFont(fBtn);
+        btnCari.setFont(fBtn);
 
-        jScrollPane1.setBounds(15, 125, 580, 260);
+        tblKategori.setFont(fText);
+        tblKategori.setRowHeight(28);
 
-        getContentPane().add(labelId);
-        getContentPane().add(txtIdKategori);
-        getContentPane().add(labelNama);
-        getContentPane().add(txtNama);
-        getContentPane().add(btnSimpan);
-        getContentPane().add(btnTambahBaru);
-        getContentPane().add(btnHapus);
-        getContentPane().add(txtCari);
-        getContentPane().add(btnCari);
-        getContentPane().add(jScrollPane1);
+        // ====== POSISI RAPI SESUAI GRID ======
+        int xLabel = 30;
+        int xField = 160;
+        int wField = 360;
+        int hField = 28;
+        int gapY = 40;
 
-        btnSimpan.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                btnSimpanActionPerformed(evt);
-            }
-        });
+        lblId.setBounds(xLabel, 30, 120, 25);
+        txtIdKategori.setBounds(xField, 30, 120, hField);
 
-        btnHapus.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                btnHapusActionPerformed(evt);
-            }
-        });
+        lblNama.setBounds(xLabel, 30 + gapY, 120, 25);
+        txtNama.setBounds(xField, 30 + gapY, wField, hField);
 
-        btnTambahBaru.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                btnTambahBaruActionPerformed(evt);
-            }
-        });
+        lblKet.setBounds(xLabel, 30 + gapY * 2, 120, 25);
+        txtKeterangan.setBounds(xField, 30 + gapY * 2, wField, hField);
 
-        btnCari.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                btnCariActionPerformed(evt);
-            }
-        });
+        btnSimpan.setBounds(xLabel, 30 + gapY * 3, 110, 35);
+        btnHapus.setBounds(xLabel + 120, 30 + gapY * 3, 110, 35);
+        btnTambahBaru.setBounds(xLabel + 240, 30 + gapY * 3, 140, 35);
 
+        txtCari.setBounds(xLabel + 390, 30 + gapY * 3, 150, 32);
+        btnCari.setBounds(xLabel + 545, 30 + gapY * 3, 70, 32);
+
+        jScrollPane1.setBounds(30, 30 + gapY * 4 + 10, 640, 300);
+
+        add(lblId);
+        add(txtIdKategori);
+        add(lblNama);
+        add(txtNama);
+        add(lblKet);
+        add(txtKeterangan);
+        add(btnSimpan);
+        add(btnHapus);
+        add(btnTambahBaru);
+        add(txtCari);
+        add(btnCari);
+        add(jScrollPane1);
+
+        // ====== EVENT ======
+        btnSimpan.addActionListener(e -> simpan());
+        btnHapus.addActionListener(e -> hapus());
+        btnTambahBaru.addActionListener(e -> kosongkanForm());
+        btnCari.addActionListener(e -> cari(txtCari.getText()));
         tblKategori.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                tblKategoriMouseClicked(evt);
+                isiFormDariTabel();
             }
         });
 
+        // Frame Setting
         setTitle("Form Kategori");
-        setSize(620, 440);
+        setSize(720, 520);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         tampilkanData();
         kosongkanForm();
     }
 
-    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {
+    //   STYLE BUTTON (MENGHILANGKAN GARIS FOKUS, MEMBERI EFEK HALUS)
+    private JButton makeButton(String text) {
+        JButton b = new JButton(text);
+        b.setFocusPainted(false);
+        b.setBackground(new Color(200, 220, 240));
+        b.setBorder(BorderFactory.createLineBorder(new Color(150, 150, 150)));
+        return b;
+    }
+
+
+    //CRUD
+    private void simpan() {
         Kategori kat = new Kategori();
         kat.setIdkategori(Integer.parseInt(txtIdKategori.getText()));
         kat.setNama(txtNama.getText());
-        kat.setKeterangan("");
+        kat.setKeterangan(txtKeterangan.getText());
         kat.save();
 
-        txtIdKategori.setText(Integer.toString(kat.getIdkategori()));
+        txtIdKategori.setText(String.valueOf(kat.getIdkategori()));
         tampilkanData();
     }
 
-    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {
-        DefaultTableModel model = (DefaultTableModel) tblKategori.getModel();
+    private void hapus() {
         int row = tblKategori.getSelectedRow();
-
-        Kategori kat = new Kategori().getById(Integer.parseInt(model.getValueAt(row, 0).toString()));
-        kat.delete();
-        kosongkanForm();
-        tampilkanData();
+        if (row >= 0) {
+            int id = Integer.parseInt(tblKategori.getValueAt(row, 0).toString());
+            Kategori kat = new Kategori().getById(id);
+            kat.delete();
+            tampilkanData();
+            kosongkanForm();
+        }
     }
 
-    private void btnTambahBaruActionPerformed(java.awt.event.ActionEvent evt) {
-        kosongkanForm();
-    }
-
-    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {
-        cari(txtCari.getText());
-    }
-
-    private void tblKategoriMouseClicked(java.awt.event.MouseEvent evt) {
-        DefaultTableModel model = (DefaultTableModel) tblKategori.getModel();
+    private void isiFormDariTabel() {
         int row = tblKategori.getSelectedRow();
-
-        txtIdKategori.setText(model.getValueAt(row, 0).toString());
-        txtNama.setText(model.getValueAt(row, 1).toString());
+        txtIdKategori.setText(tblKategori.getValueAt(row, 0).toString());
+        txtNama.setText(tblKategori.getValueAt(row, 1).toString());
+        txtKeterangan.setText(tblKategori.getValueAt(row, 2).toString());
     }
 
-    public void kosongkanForm() {
+    private void kosongkanForm() {
         txtIdKategori.setText("0");
         txtNama.setText("");
+        txtKeterangan.setText("");
     }
 
-    public void tampilkanData() {
-        String[] kolom = {"ID", "Kategori"};
-        ArrayList<Kategori> list = new Kategori().getAll();
-        Object rowData[] = new Object[2];
+    private void tampilkanData() {
+        String[] kolom = {"ID", "Nama Kategori", "Keterangan"};
+        DefaultTableModel model = new DefaultTableModel(new Object[][]{}, kolom);
 
-        tblKategori.setModel(new DefaultTableModel(new Object[][] {}, kolom));
-
-        for (Kategori kat : list) {
-            rowData[0] = kat.getIdkategori();
-            rowData[1] = kat.getNama();
-
-            ((DefaultTableModel) tblKategori.getModel()).addRow(rowData);
+        for (Kategori k : new Kategori().getAll()) {
+            model.addRow(new Object[]{
+                k.getIdkategori(),
+                k.getNama(),
+                k.getKeterangan()
+            });
         }
+
+        tblKategori.setModel(model);
+        tblKategori.getColumnModel().getColumn(0).setPreferredWidth(40);
     }
 
-    public void cari(String keyword) {
-        String[] kolom = {"ID", "Kategori"};
-        ArrayList<Kategori> list = new Kategori().search(keyword);
-        Object rowData[] = new Object[2];
+    private void cari(String keyword) {
+        String[] kolom = {"ID", "Nama Kategori", "Keterangan"};
+        DefaultTableModel model = new DefaultTableModel(new Object[][]{}, kolom);
 
-        tblKategori.setModel(new DefaultTableModel(new Object[][] {}, kolom));
-
-        for (Kategori kat : list) {
-            rowData[0] = kat.getIdkategori();
-            rowData[1] = kat.getNama();
-
-            ((DefaultTableModel) tblKategori.getModel()).addRow(rowData);
+        for (Kategori k : new Kategori().search(keyword)) {
+            model.addRow(new Object[]{
+                k.getIdkategori(),
+                k.getNama(),
+                k.getKeterangan()
+            });
         }
+
+        tblKategori.setModel(model);
     }
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmKategori().setVisible(true);
-            }
-        });
+    public static void main(String[] args) {
+        new FrmKategori().setVisible(true);
     }
 }

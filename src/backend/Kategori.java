@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.sql.*;
 public class Kategori {
 
-    // 3. Atribut
+    
     private int idkategori;
     private String nama;
     private String keterangan;
 
-    // 5. Konstruktor
+    
     public Kategori() {
     }
 
@@ -18,7 +18,7 @@ public class Kategori {
         this.keterangan = keterangan;
     }
 
-    // 4. Getter dan Setter
+
     public int getIdkategori() {
         return idkategori;
     }
@@ -43,7 +43,6 @@ public class Kategori {
         this.keterangan = keterangan;
     }
 
-    // 6. Method getById()
     public Kategori getById(int id) {
         Kategori kat = new Kategori();
         ResultSet rs = DBHelper.selectQuery("SELECT * FROM kategori "
@@ -61,7 +60,6 @@ public class Kategori {
         return kat;
     }
 
-    // 7. Method getAll()
     public ArrayList<Kategori> getAll() {
         ArrayList<Kategori> ListKategori = new ArrayList();
         ResultSet rs = DBHelper.selectQuery("SELECT * FROM kategori");
@@ -79,7 +77,6 @@ public class Kategori {
         return ListKategori;
     }
 
-    // 8. Method search()
     public ArrayList<Kategori> search(String keyword) {
         ArrayList<Kategori> ListKategori = new ArrayList();
         String sql = "SELECT * FROM kategori WHERE "
@@ -100,7 +97,6 @@ public class Kategori {
         return ListKategori;
     }
 
-    // 9. Method save()
     public void save() {
         if (getById(idkategori).getIdkategori() == 0) {
             String SQL = "INSERT INTO kategori (nama, keterangan) VALUES("
@@ -117,7 +113,6 @@ public class Kategori {
         }
     }
 
-    // 10. Method delete()
     public void delete() {
         String SQL = "DELETE FROM kategori WHERE idkategori = '" + this.idkategori + "'";
         DBHelper.executeQuery(SQL);
