@@ -7,14 +7,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class FrmKategori extends JFrame {
+public class FrmAnggota extends JFrame {
 
-    private JTextField txtIdKategori, txtNama, txtKeterangan, txtCari;
+    private JTextField txtIdAnggota, txtNama, txtAlamat, txtTelepon, txtCari;
     private JButton btnSimpan, btnHapus, btnTambahBaru, btnCari;
-    private JTable tblKategori;
+    private JTable tblAnggota;
     private JScrollPane jScrollPane1;
 
-    public FrmKategori() {
+    public FrmAnggota() {
 
         //tampilan UI
         UIManager.put("Button.focus", new Color(0, 0, 0, 0));   
@@ -22,13 +22,15 @@ public class FrmKategori extends JFrame {
         UIManager.put("Table.intercellSpacing", new Dimension(8, 8));
 
         //inisialisasi komponen form
-        JLabel lblId = new JLabel("ID Kategori");
-        JLabel lblNama = new JLabel("Nama Kategori");
-        JLabel lblKet = new JLabel("Keterangan");
+        JLabel lblId = new JLabel("ID Anggota");
+        JLabel lblNama = new JLabel("Nama");
+        JLabel lblAlamat = new JLabel("Alamat");
+        JLabel lblTelepon = new JLabel("Telepon");
 
-        txtIdKategori = new JTextField();
+        txtIdAnggota = new JTextField();
         txtNama = new JTextField();
-        txtKeterangan = new JTextField();
+        txtAlamat = new JTextField();
+        txtTelepon = new JTextField();
         txtCari = new JTextField();
 
         btnSimpan = makeButton("Simpan");
@@ -36,11 +38,11 @@ public class FrmKategori extends JFrame {
         btnTambahBaru = makeButton("Tambah Baru");
         btnCari = makeButton("Cari");
 
-        txtIdKategori.setText("0");
-        txtIdKategori.setEnabled(false);
+        txtIdAnggota.setText("0");
+        txtIdAnggota.setEnabled(false);
 
-        tblKategori = new JTable();
-        jScrollPane1 = new JScrollPane(tblKategori);
+        tblAnggota = new JTable();
+        jScrollPane1 = new JScrollPane(tblAnggota);
 
         setLayout(null); // manual layout
 
@@ -51,11 +53,13 @@ public class FrmKategori extends JFrame {
 
         lblId.setFont(fLabel);
         lblNama.setFont(fLabel);
-        lblKet.setFont(fLabel);
+        lblAlamat.setFont(fLabel);
+        lblTelepon.setFont(fLabel);
 
-        txtIdKategori.setFont(fText);
+        txtIdAnggota.setFont(fText);
         txtNama.setFont(fText);
-        txtKeterangan.setFont(fText);
+        txtAlamat.setFont(fText);
+        txtTelepon.setFont(fText);
         txtCari.setFont(fText);
 
         btnSimpan.setFont(fBtn);
@@ -63,8 +67,8 @@ public class FrmKategori extends JFrame {
         btnTambahBaru.setFont(fBtn);
         btnCari.setFont(fBtn);
 
-        tblKategori.setFont(fText);
-        tblKategori.setRowHeight(28);
+        tblAnggota.setFont(fText);
+        tblAnggota.setRowHeight(28);
 
         //rapikan grid
         int xLabel = 30;
@@ -74,29 +78,34 @@ public class FrmKategori extends JFrame {
         int gapY = 40;
 
         lblId.setBounds(xLabel, 30, 120, 25);
-        txtIdKategori.setBounds(xField, 30, 120, hField);
+        txtIdAnggota.setBounds(xField, 30, 120, hField);
 
         lblNama.setBounds(xLabel, 30 + gapY, 120, 25);
         txtNama.setBounds(xField, 30 + gapY, wField, hField);
 
-        lblKet.setBounds(xLabel, 30 + gapY * 2, 120, 25);
-        txtKeterangan.setBounds(xField, 30 + gapY * 2, wField, hField);
+        lblAlamat.setBounds(xLabel, 30 + gapY * 2, 120, 25);
+        txtAlamat.setBounds(xField, 30 + gapY * 2, wField, hField);
 
-        btnSimpan.setBounds(xLabel, 30 + gapY * 3, 110, 35);
-        btnHapus.setBounds(xLabel + 120, 30 + gapY * 3, 110, 35);
-        btnTambahBaru.setBounds(xLabel + 240, 30 + gapY * 3, 140, 35);
+        lblTelepon.setBounds(xLabel, 30 + gapY * 3, 120, 25);
+        txtTelepon.setBounds(xField, 30 + gapY * 3, wField, hField);
 
-        txtCari.setBounds(xLabel + 390, 30 + gapY * 3, 150, 32);
-        btnCari.setBounds(xLabel + 545, 30 + gapY * 3, 70, 32);
+        btnSimpan.setBounds(xLabel, 30 + gapY * 4, 110, 35);
+        btnHapus.setBounds(xLabel + 120, 30 + gapY * 4, 110, 35);
+        btnTambahBaru.setBounds(xLabel + 240, 30 + gapY * 4, 140, 35);
 
-        jScrollPane1.setBounds(30, 30 + gapY * 4 + 10, 640, 300);
+        txtCari.setBounds(xLabel + 390, 30 + gapY * 4, 150, 32);
+        btnCari.setBounds(xLabel + 545, 30 + gapY * 4, 70, 32);
+
+        jScrollPane1.setBounds(30, 30 + gapY * 5 + 10, 640, 300);
 
         add(lblId);
-        add(txtIdKategori);
+        add(txtIdAnggota);
         add(lblNama);
         add(txtNama);
-        add(lblKet);
-        add(txtKeterangan);
+        add(lblAlamat);
+        add(txtAlamat);
+        add(lblTelepon);
+        add(txtTelepon);
         add(btnSimpan);
         add(btnHapus);
         add(btnTambahBaru);
@@ -109,15 +118,15 @@ public class FrmKategori extends JFrame {
         btnHapus.addActionListener(e -> hapus());
         btnTambahBaru.addActionListener(e -> kosongkanForm());
         btnCari.addActionListener(e -> cari(txtCari.getText()));
-        tblKategori.addMouseListener(new MouseAdapter() {
+        tblAnggota.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 isiFormDariTabel();
             }
         });
 
         // Frame Setting
-        setTitle("Form Kategori");
-        setSize(720, 520);
+        setTitle("Form Anggota");
+        setSize(720, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -134,25 +143,25 @@ public class FrmKategori extends JFrame {
         return b;
     }
 
-
     //CRUD
     private void simpan() {
-        Kategori kat = new Kategori();
-        kat.setIdkategori(Integer.parseInt(txtIdKategori.getText()));
-        kat.setNama(txtNama.getText());
-        kat.setKeterangan(txtKeterangan.getText());
-        kat.save();
+        Anggota ang = new Anggota();
+        ang.setIdanggota(Integer.parseInt(txtIdAnggota.getText()));
+        ang.setNama(txtNama.getText());
+        ang.setAlamat(txtAlamat.getText());
+        ang.setTelepon(txtTelepon.getText());
+        ang.save();
 
-        txtIdKategori.setText(String.valueOf(kat.getIdkategori()));
+        txtIdAnggota.setText(String.valueOf(ang.getIdanggota()));
         tampilkanData();
     }
 
     private void hapus() {
-        int row = tblKategori.getSelectedRow();
+        int row = tblAnggota.getSelectedRow();
         if (row >= 0) {
-            int id = Integer.parseInt(tblKategori.getValueAt(row, 0).toString());
-            Kategori kat = new Kategori().getById(id);
-            kat.delete();
+            int id = Integer.parseInt(tblAnggota.getValueAt(row, 0).toString());
+            Anggota ang = new Anggota().getById(id);
+            ang.delete();
             tampilkanData();
             kosongkanForm();
         } else {
@@ -161,50 +170,54 @@ public class FrmKategori extends JFrame {
     }
 
     private void isiFormDariTabel() {
-        int row = tblKategori.getSelectedRow();
-        txtIdKategori.setText(tblKategori.getValueAt(row, 0).toString());
-        txtNama.setText(tblKategori.getValueAt(row, 1).toString());
-        txtKeterangan.setText(tblKategori.getValueAt(row, 2).toString());
+        int row = tblAnggota.getSelectedRow();
+        txtIdAnggota.setText(tblAnggota.getValueAt(row, 0).toString());
+        txtNama.setText(tblAnggota.getValueAt(row, 1).toString());
+        txtAlamat.setText(tblAnggota.getValueAt(row, 2).toString());
+        txtTelepon.setText(tblAnggota.getValueAt(row, 3).toString());
     }
 
     private void kosongkanForm() {
-        txtIdKategori.setText("0");
+        txtIdAnggota.setText("0");
         txtNama.setText("");
-        txtKeterangan.setText("");
+        txtAlamat.setText("");
+        txtTelepon.setText("");
     }
 
     private void tampilkanData() {
-        String[] kolom = {"ID", "Nama Kategori", "Keterangan"};
+        String[] kolom = {"ID", "Nama", "Alamat", "Telepon"};
         DefaultTableModel model = new DefaultTableModel(new Object[][]{}, kolom);
 
-        for (Kategori k : new Kategori().getAll()) {
+        for (Anggota a : new Anggota().getAll()) {
             model.addRow(new Object[]{
-                k.getIdkategori(),
-                k.getNama(),
-                k.getKeterangan()
+                a.getIdanggota(),
+                a.getNama(),
+                a.getAlamat(),
+                a.getTelepon()
             });
         }
 
-        tblKategori.setModel(model);
-        tblKategori.getColumnModel().getColumn(0).setPreferredWidth(40);
+        tblAnggota.setModel(model);
+        tblAnggota.getColumnModel().getColumn(0).setPreferredWidth(40);
     }
 
     private void cari(String keyword) {
-        String[] kolom = {"ID", "Nama Kategori", "Keterangan"};
+        String[] kolom = {"ID", "Nama", "Alamat", "Telepon"};
         DefaultTableModel model = new DefaultTableModel(new Object[][]{}, kolom);
 
-        for (Kategori k : new Kategori().search(keyword)) {
+        for (Anggota a : new Anggota().search(keyword)) {
             model.addRow(new Object[]{
-                k.getIdkategori(),
-                k.getNama(),
-                k.getKeterangan()
+                a.getIdanggota(),
+                a.getNama(),
+                a.getAlamat(),
+                a.getTelepon()
             });
         }
 
-        tblKategori.setModel(model);
+        tblAnggota.setModel(model);
     }
 
     public static void main(String[] args) {
-        new FrmKategori().setVisible(true);
+        new FrmAnggota().setVisible(true);
     }
 }
